@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_211445) do
+ActiveRecord::Schema.define(version: 2019_01_27_211046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "comments", force: :cascade do |t|
-    t.bigint "post_id", null: false
-    t.bigint "user_id", null: false
+  create_table "comments", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "post_id", null: false
+    t.uuid "user_id", null: false
     t.string "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 2019_01_27_211445) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.bigint "user_id", null: false
+  create_table "posts", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
     t.string "title", null: false
     t.string "content", null: false
     t.string "tags", default: [], array: true
@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 2019_01_27_211445) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
     t.boolean "admin", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
