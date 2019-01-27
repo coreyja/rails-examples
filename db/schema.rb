@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2019_01_27_193315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.boolean "admin", default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
 
 end
